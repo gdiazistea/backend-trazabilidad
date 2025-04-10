@@ -1,20 +1,26 @@
-# app/core/database.py
-from sqlmodel import create_engine, Session
-from dotenv import load_dotenv
-import os
+from sqlmodel import SQLModel, create_engine, Session
+from app.core.config import settings
 
-load_dotenv()
+# Armamos la URL con el esquema como opción de PostgreSQL
+DATABASE_URL = (
+    f"postgresql://{settings.DB_USER}:{settings.DB_PASSWORD}"
+    f"@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}"
+    f"?options=-csearch_path%3D{settings.DB_SCHEMA}"
+)
 
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
-DB_NAME = os.getenv("DB_NAME")
-DB_USER = os.getenv("DB_USER")
-DB_PASS = os.getenv("DB_PASS")
-
-# Arma la URL de conexión manualmente
-DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+# Creamos el engine con SQLAlchemy
 engine = create_engine(DATABASE_URL, echo=True)
 
-def get_session():
+# Función para obtener una sesión
+def get_session() -> Session:
     with Session(engine) as session:
         yield session
+
+# Función para inicializar la base de datos (crear tablas)
+def init_db():
+    SQLModel.metadata.create_all(engine)
+
+# Si ejecutás este archivo directamente, se crean las tablas
+if __name__ == "__main__":
+    init_db()
+    print("Base de datos inicializada correctamente.")

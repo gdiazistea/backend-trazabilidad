@@ -1,7 +1,10 @@
-# app/main.py
 from fastapi import FastAPI
-from app.api.routes import router
+from app.application.routers import producto_politica
 
-app = FastAPI(title="API de Trazabilidad de Producto-Política")
+app = FastAPI()
 
-app.include_router(router, prefix="/api")
+@app.get("/")
+def root():
+    return {"message": "API activa"}
+
+app.include_router(producto_politica.router, prefix="/producto-politica")
