@@ -1,7 +1,37 @@
+# 📦 Backend - Trazabilidad de Datos
 
-# 🧬 API de Trazabilidad de Productos
+Este proyecto expone una API REST para consultar información almacenada en una base de datos PostgreSQL. Está desarrollado con **FastAPI** y utiliza **SQLModel** como ORM. El objetivo principal es permitir trazabilidad de datos desde una base relacional hasta endpoints fácilmente consumibles.
 
-Este proyecto implementa una API REST utilizando **FastAPI**, **SQLModel** y **PostgreSQL** para exponer los datos de productos y sus políticas de precios y rendimiento. Está pensado para sistemas de trazabilidad y análisis en entornos productivos.
+---
+
+## 🔄 Diagrama de flujo de la trazabilidad de datos
+
+```mermaid
+flowchart LR
+    subgraph Base de Datos
+        A[PostgreSQL]
+    end
+
+    subgraph Backend
+        B[Python]
+        B1[SQLModel]
+        B2[FastAPI]
+    end
+
+    subgraph API
+        C[API REST]
+    end
+
+    subgraph Cliente
+        D[Postman / Frontend / Cliente HTTP]
+    end
+
+    A <--> B1
+    B1 --> B2
+    B2 --> C
+    C --> D
+```
+
 
 ---
 
@@ -21,6 +51,53 @@ Este proyecto implementa una API REST utilizando **FastAPI**, **SQLModel** y **P
 ├── requirements.txt
 └── README.md
 ```
+## 📁 Estructura del Proyecto
+
+### 🧠 `app/core/database.py`
+📌 **¿Qué hace?**
+
+- Crea la conexión al motor de base de datos PostgreSQL.
+- Usa `SQLModel` y `create_engine`.
+- Aplica `search_path` para que las consultas usen el esquema `odp`.
+
+---
+
+### ⚙️ `app/core/config.py`
+📌 **¿Qué hace?**
+
+- Define las variables de entorno necesarias para conectarse a la base de datos.
+- Centraliza la configuración del proyecto usando `pydantic.BaseSettings`.
+
+---
+
+### 📚 `app/models/producto_politica.py`
+📌 **¿Qué hace?**
+
+- Define el modelo `ProductoPolitica` usando SQLModel.
+- Mapea la tabla `producto_politica` del esquema `odp`.
+
+---
+
+### 🧩 `app/api/endpoints/producto_politica.py`
+📌 **¿Qué hace?**
+
+- Expone los endpoints para consultar los datos de `producto_politica`.
+- Usa inyección de dependencias para acceder a la sesión de la base de datos.
+
+---
+
+### 🚀 `main.py`
+📌 **¿Qué hace?**
+
+- Inicia la aplicación FastAPI.
+- Incluye los routers que exponen las rutas de la API.
+
+---
+
+### 📦 `requirements.txt` o `pyproject.toml`
+📌 **¿Qué hace?**
+
+- Define las dependencias necesarias para instalar y correr el proyecto.
 
 ---
 
@@ -82,3 +159,4 @@ Una vez ejecutada la API, accedé a la documentación en:
 
 - Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
 - ReDoc: [http://localhost:8000/redoc](http://localhost:8000/redoc)
+
