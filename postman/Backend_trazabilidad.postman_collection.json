@@ -1,0 +1,41 @@
+{
+	"info": {
+		"_postman_id": "646e95b4-ad72-4e81-9263-5c1afa313456",
+		"name": "Backend_trazabilidad",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43960060"
+	},
+	"item": [
+		{
+			"name": "producto-politica",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/producto-politica/producto_politica/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"producto-politica",
+						"producto_politica",
+						""
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
