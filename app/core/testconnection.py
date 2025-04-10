@@ -1,22 +1,28 @@
-from sqlalchemy import create_engine
-from sqlalchemy.exc import OperationalError
-from dotenv import load_dotenv
-import os
+import psycopg2
 
-# Cargar variables del .env
-load_dotenv()
+# Parámetros de conexión
+conn_params = {
+    "dbname": "modelo_optimizacion",
+    "user": "postgres",
+    "password": "1234",
+    "host": "10.255.255.0",
+    "port": "5432"
+}
 
-# Obtener la URL de conexión
-DATABASE_URL = os.getenv("DATABASE_URL")
-
-# Crear el engine
-engine = create_engine(DATABASE_URL)
-
-# Intentar conectarse
 try:
-    with engine.connect() as connection:
-        result = connection.execute("SELECT 1")
-        print("✅ Conexión exitosa a la base de datos.")
-except OperationalError as e:
+    # Establecer conexión
+    conn = psycopg2.connect(**conn_params)
+    cursor = conn.cursor()
+
+    # Ejecutar una consulta de prueba
+    cursor.execute("SELECT version();")
+    version = cursor.fetchone()
+    print("✅ Conexión exitosa. Versión de PostgreSQL:", version)
+
+    # Cerrar conexión
+    cursor.close()
+    conn.close()
+
+except psycopg2.Error as e:
     print("❌ Error al conectar con la base de datos:")
     print(e)
