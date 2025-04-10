@@ -1,4 +1,6 @@
-# app/models/base.py
-from sqlalchemy.orm import declarative_base
+from sqlmodel import SQLModel
+from app.core.config import settings
 
-Base = declarative_base()
+class BaseModel(SQLModel):
+    __abstract__ = True  # evita que SQLModel lo cree como tabla
+    __table_args__ = {"schema": settings.DB_SCHEMA}
