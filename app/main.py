@@ -1,6 +1,7 @@
+# app/main.py
 from fastapi import FastAPI
-from app.api.endpoints import maestro
+from app.api.routes import router
 
-app = FastAPI()
+app = FastAPI(title="API de Trazabilidad de Producto-Política")
 
-app.include_router(maestro.router, prefix="/api", tags=["Maestro"])
+app.include_router(router, prefix="/api")
