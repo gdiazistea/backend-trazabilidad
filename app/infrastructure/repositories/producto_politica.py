@@ -1,7 +1,9 @@
-# Acá se maneja la lógica de acceso a datos (query con SQLModel o SQLAlchemy).
-from sqlmodel import Session, select
+from sqlmodel import Session
 from app.domain.models.producto_politica import ProductoPolitica
+from app.infrastructure.repositories.base import BaseRepository
 
-def get_all_producto_politica(session: Session):
-    statement = select(ProductoPolitica)
-    return session.exec(statement).all()
+producto_politica_repository = BaseRepository(ProductoPolitica)
+
+# Podés usar:
+# producto_politica_repository.get_all(session)
+# producto_politica_repository.get_by_id(session, 1)

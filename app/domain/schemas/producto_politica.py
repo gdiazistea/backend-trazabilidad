@@ -1,7 +1,10 @@
+
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Optional
 
-class ProductoPoliticaRead(BaseModel):
+
+class ProductoPoliticaBase(BaseModel):
     fk_politica: int
     fk_producto: int
     fk_destino_costo: int
@@ -13,7 +16,14 @@ class ProductoPoliticaRead(BaseModel):
     precio_recupero_subproducto_ars_kg: float
     fl_aplica_costo_congelado: bool
     costo_madurado_congelado_ars_kg: float
-    last_update: datetime
 
     class Config:
         from_attributes = True
+
+
+class ProductoPoliticaRead(ProductoPoliticaBase):
+    last_update: datetime
+
+
+class ProductoPoliticaUpsert(ProductoPoliticaBase):
+    last_update: Optional[datetime] = None  # Puede omitirse si se genera en la BD

@@ -70,15 +70,25 @@ flowchart LR
 
 ---
 
-### 📚 `app/models/producto_politica.py`
+### 🧠 `app/domain/models/producto_politica.py`
 📌 **¿Qué hace?**
 
-- Define el modelo `ProductoPolitica` usando SQLModel.
-- Mapea la tabla `producto_politica` del esquema `odp`.
+- Define la entidad de dominio `ProductoPolitica` según reglas del negocio.
+- Es independiente del motor de base de datos y representa el concepto puro del dominio.
 
 ---
 
-### 🧩 `app/api/endpoints/producto_politica.py`
+
+### 📐 `app/domain/schemas/producto_politica.py`
+📌 **¿Qué hace?**
+
+- Define los modelos de entrada/salida (DTOs) para la API usando `Pydantic`.
+- Asegura validación de datos en las requests/responses.
+- Separa el modelo de dominio del modelo expuesto por la API.
+
+---
+
+### 🧩 `app/application/routers/producto_politica.py`
 📌 **¿Qué hace?**
 
 - Expone los endpoints para consultar los datos de `producto_politica`.
@@ -94,7 +104,7 @@ flowchart LR
 
 ---
 
-### 📦 `requirements.txt` o `pyproject.toml`
+### 📦 `requirements.txt`
 📌 **¿Qué hace?**
 
 - Define las dependencias necesarias para instalar y correr el proyecto.
